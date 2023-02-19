@@ -1,0 +1,80 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "Excel1",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "Json1",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "select1"
+				},
+				{
+					"name": "sort1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          {Order ID} as string,",
+				"          {Order Date} as string,",
+				"          {Unit Cost} as string,",
+				"          Price as string,",
+				"          {Order Qty} as string,",
+				"          {Cost of Sales} as string,",
+				"          Sales as string,",
+				"          Profit as string,",
+				"          Channel as string,",
+				"          {Promotion Name} as string,",
+				"          {Product Name} as string,",
+				"          Manufacturer as string,",
+				"          {Product Sub Category} as string,",
+				"          {Product Category} as string,",
+				"          Region as string,",
+				"          City as string,",
+				"          Country as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source1 select(mapColumn(",
+				"          {Order ID},",
+				"          {Order Date},",
+				"          {Unit Cost},",
+				"          Price,",
+				"          {Order Qty},",
+				"          Profit,",
+				"          {Product Name},",
+				"          {Product Sub Category},",
+				"          {Product Category},",
+				"          Region",
+				"     ),",
+				"     partitionBy('roundRobin', 2),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 sort(desc(Profit, true)) ~> sort1",
+				"sort1 sink(allowSchemaDrift: true,",
+				"     validateSchema: true,",
+				"     rowUrlColumn:'Region',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     saveOrder: 1) ~> sink1"
+			]
+		}
+	}
+}

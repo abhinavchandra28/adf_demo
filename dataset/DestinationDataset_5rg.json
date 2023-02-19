@@ -1,0 +1,19 @@
+{
+	"name": "DestinationDataset_5rg",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "sales_data_output",
+				"container": "sales-data-blob"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

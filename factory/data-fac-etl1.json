@@ -1,0 +1,9 @@
+{
+	"name": "data-fac-etl1",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "d9066d28-bebb-411c-9737-f6931c0d617e",
+		"tenantId": "4b47636d-5b09-4141-b3c7-de3c9520ba7c"
+	}
+}
