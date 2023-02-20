@@ -1,0 +1,36 @@
+{
+	"name": "product_cat",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "adventure_works/ad_w_data"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "AdventureWorks_Product_Categories.csv",
+				"folderPath": "adventure_works",
+				"container": "sales-data-blob"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "ProductCategoryKey",
+				"type": "String"
+			},
+			{
+				"name": "CategoryName",
+				"type": "String"
+			}
+		]
+	}
+}
