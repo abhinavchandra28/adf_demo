@@ -1,0 +1,44 @@
+{
+	"name": "returns",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "adventure_works/ad_w_data"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "AdventureWorks_Returns.csv",
+				"folderPath": "adventure_works",
+				"container": "sales-data-blob"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "ReturnDate",
+				"type": "String"
+			},
+			{
+				"name": "TerritoryKey",
+				"type": "String"
+			},
+			{
+				"name": "ProductKey",
+				"type": "String"
+			},
+			{
+				"name": "ReturnQuantity",
+				"type": "String"
+			}
+		]
+	}
+}
