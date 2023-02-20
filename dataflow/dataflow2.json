@@ -1,0 +1,166 @@
+{
+	"name": "dataflow2",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "sales_2015",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				},
+				{
+					"dataset": {
+						"referenceName": "sales_2016",
+						"type": "DatasetReference"
+					},
+					"name": "source2"
+				},
+				{
+					"dataset": {
+						"referenceName": "sales_2017",
+						"type": "DatasetReference"
+					},
+					"name": "source3"
+				},
+				{
+					"dataset": {
+						"referenceName": "product_sub_cat",
+						"type": "DatasetReference"
+					},
+					"name": "prodsubcat"
+				},
+				{
+					"dataset": {
+						"referenceName": "product_cat",
+						"type": "DatasetReference"
+					},
+					"name": "pcateg"
+				},
+				{
+					"dataset": {
+						"referenceName": "customer",
+						"type": "DatasetReference"
+					},
+					"name": "customerdata"
+				},
+				{
+					"dataset": {
+						"referenceName": "territories",
+						"type": "DatasetReference"
+					},
+					"name": "territories"
+				}
+			],
+			"sinks": [
+				{
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "sales3yrs"
+				},
+				{
+					"name": "joincatsubcat"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          OrderDate as string,",
+				"          StockDate as string,",
+				"          OrderNumber as string,",
+				"          ProductKey as string,",
+				"          CustomerKey as string,",
+				"          TerritoryKey as string,",
+				"          OrderLineItem as string,",
+				"          OrderQuantity as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source(output(",
+				"          OrderDate as string,",
+				"          StockDate as string,",
+				"          OrderNumber as string,",
+				"          ProductKey as string,",
+				"          CustomerKey as string,",
+				"          TerritoryKey as string,",
+				"          OrderLineItem as string,",
+				"          OrderQuantity as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source2",
+				"source(output(",
+				"          OrderDate as string,",
+				"          StockDate as string,",
+				"          OrderNumber as string,",
+				"          ProductKey as string,",
+				"          CustomerKey as string,",
+				"          TerritoryKey as string,",
+				"          OrderLineItem as string,",
+				"          OrderQuantity as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source3",
+				"source(output(",
+				"          ProductSubcategoryKey as string,",
+				"          SubcategoryName as string,",
+				"          ProductCategoryKey as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> prodsubcat",
+				"source(output(",
+				"          ProductCategoryKey as string,",
+				"          CategoryName as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> pcateg",
+				"source(output(",
+				"          CustomerKey as string,",
+				"          Prefix as string,",
+				"          FirstName as string,",
+				"          LastName as string,",
+				"          BirthDate as string,",
+				"          MaritalStatus as string,",
+				"          Gender as string,",
+				"          EmailAddress as string,",
+				"          AnnualIncome as string,",
+				"          TotalChildren as string,",
+				"          EducationLevel as string,",
+				"          Occupation as string,",
+				"          HomeOwner as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> customerdata",
+				"source(output(",
+				"          SalesTerritoryKey as string,",
+				"          Region as string,",
+				"          Country as string,",
+				"          Continent as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> territories",
+				"source1, source2, source3 union(byName: true)~> sales3yrs",
+				"prodsubcat, pcateg join(prodsubcat@ProductCategoryKey == pcateg@ProductCategoryKey,",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> joincatsubcat",
+				"sales3yrs sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     saveOrder: 1) ~> sink1"
+			]
+		}
+	}
+}
