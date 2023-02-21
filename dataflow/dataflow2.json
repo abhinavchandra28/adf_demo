@@ -27,35 +27,32 @@
 				},
 				{
 					"dataset": {
-						"referenceName": "product_sub_cat",
+						"referenceName": "products",
 						"type": "DatasetReference"
 					},
-					"name": "prodsubcat"
-				},
-				{
-					"dataset": {
-						"referenceName": "product_cat",
-						"type": "DatasetReference"
-					},
-					"name": "pcateg"
+					"name": "product"
 				},
 				{
 					"dataset": {
 						"referenceName": "customer",
 						"type": "DatasetReference"
 					},
-					"name": "customerdata"
+					"name": "customers"
 				},
 				{
 					"dataset": {
 						"referenceName": "territories",
 						"type": "DatasetReference"
 					},
-					"name": "territories"
+					"name": "territory"
 				}
 			],
 			"sinks": [
 				{
+					"dataset": {
+						"referenceName": "outputdf2",
+						"type": "DatasetReference"
+					},
 					"name": "sink1"
 				}
 			],
@@ -64,7 +61,16 @@
 					"name": "sales3yrs"
 				},
 				{
-					"name": "joincatsubcat"
+					"name": "salesallyrprod"
+				},
+				{
+					"name": "select1"
+				},
+				{
+					"name": "joinwithcustomer"
+				},
+				{
+					"name": "joinwithterritories"
 				}
 			],
 			"scriptLines": [
@@ -108,20 +114,21 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> source3",
 				"source(output(",
+				"          ProductKey as string,",
 				"          ProductSubcategoryKey as string,",
-				"          SubcategoryName as string,",
-				"          ProductCategoryKey as string",
+				"          ProductSKU as string,",
+				"          ProductName as string,",
+				"          ModelName as string,",
+				"          ProductDescription as string,",
+				"          ProductColor as string,",
+				"          ProductSize as string,",
+				"          ProductStyle as string,",
+				"          ProductCost as string,",
+				"          ProductPrice as string",
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> prodsubcat",
-				"source(output(",
-				"          ProductCategoryKey as string,",
-				"          CategoryName as string",
-				"     ),",
-				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> pcateg",
+				"     ignoreNoFilesFound: false) ~> product",
 				"source(output(",
 				"          CustomerKey as string,",
 				"          Prefix as string,",
@@ -139,7 +146,7 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> customerdata",
+				"     ignoreNoFilesFound: false) ~> customers",
 				"source(output(",
 				"          SalesTerritoryKey as string,",
 				"          Region as string,",
@@ -148,14 +155,26 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> territories",
+				"     ignoreNoFilesFound: false) ~> territory",
 				"source1, source2, source3 union(byName: true)~> sales3yrs",
-				"prodsubcat, pcateg join(prodsubcat@ProductCategoryKey == pcateg@ProductCategoryKey,",
+				"sales3yrs, product join(sales3yrs@ProductKey == product@ProductKey,",
 				"     joinType:'left',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> joincatsubcat",
-				"sales3yrs sink(allowSchemaDrift: true,",
+				"     broadcast: 'auto')~> salesallyrprod",
+				"salesallyrprod select(skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1, customers join(select1@CustomerKey == customers@CustomerKey,",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> joinwithcustomer",
+				"joinwithcustomer, territory join(TerritoryKey == SalesTerritoryKey,",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> joinwithterritories",
+				"joinwithterritories sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
