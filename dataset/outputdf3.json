@@ -1,5 +1,5 @@
 {
-	"name": "ad_w_out",
+	"name": "outputdf3",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureBlobStorage1",
@@ -9,14 +9,18 @@
 			"name": "adventure_works/ad_w_output"
 		},
 		"annotations": [],
-		"type": "Excel",
+		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"folderPath": "adventure_works_output",
+				"fileName": "outputdf3",
+				"folderPath": "adventure_works_output/sales_all_and_product_table",
 				"container": "sales-data-blob"
 			},
-			"firstRowAsHeader": true
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
 		},
 		"schema": []
 	}

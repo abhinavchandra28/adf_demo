@@ -1,0 +1,75 @@
+{
+	"name": "dataflow3",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "product_sub_cat",
+						"type": "DatasetReference"
+					},
+					"name": "prodsubcat"
+				},
+				{
+					"dataset": {
+						"referenceName": "product_cat",
+						"type": "DatasetReference"
+					},
+					"name": "prodcat"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "outputdf3",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "join1"
+				},
+				{
+					"name": "select1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          ProductSubcategoryKey as string,",
+				"          SubcategoryName as string,",
+				"          ProductCategoryKey as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> prodsubcat",
+				"source(output(",
+				"          ProductCategoryKey as string,",
+				"          CategoryName as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> prodcat",
+				"prodsubcat, prodcat join(prodsubcat@ProductCategoryKey == prodcat@ProductCategoryKey,",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join1",
+				"join1 select(mapColumn(",
+				"          ProductSubcategoryKey,",
+				"          SubcategoryName,",
+				"          ProductCategoryKey = prodcat@ProductCategoryKey,",
+				"          CategoryName",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
+			]
+		}
+	}
+}
