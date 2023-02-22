@@ -13,7 +13,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "output",
+				"fileName": "outputdf2.csv",
 				"folderPath": "adventure_works_output/sales_all_and_product_table",
 				"container": "sales-data-blob"
 			},
