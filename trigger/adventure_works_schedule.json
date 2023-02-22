@@ -1,0 +1,25 @@
+{
+	"name": "adventure_works_schedule",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "adventure_works_pipeline",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Hour",
+				"interval": 12,
+				"startTime": "2023-02-23T00:42:00Z",
+				"endTime": "2023-02-25T00:00:00Z",
+				"timeZone": "UTC"
+			}
+		}
+	}
+}
