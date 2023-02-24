@@ -1,0 +1,99 @@
+{
+	"name": "dataflow4",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "outputdf2",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				},
+				{
+					"dataset": {
+						"referenceName": "outputdf3",
+						"type": "DatasetReference"
+					},
+					"name": "source2"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "outputdf4",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "join1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          OrderDate as string,",
+				"          StockDate as string,",
+				"          OrderNumber as string,",
+				"          ProductKey as string,",
+				"          CustomerKey as string,",
+				"          TerritoryKey as string,",
+				"          OrderLineItem as string,",
+				"          OrderQuantity as string,",
+				"          ProductSubcategoryKey as string,",
+				"          ProductSKU as string,",
+				"          ProductName as string,",
+				"          ModelName as string,",
+				"          ProductDescription as string,",
+				"          ProductColor as string,",
+				"          ProductSize as string,",
+				"          ProductStyle as string,",
+				"          ProductCost as string,",
+				"          ProductPrice as string,",
+				"          Prefix as string,",
+				"          FirstName as string,",
+				"          LastName as string,",
+				"          BirthDate as string,",
+				"          MaritalStatus as string,",
+				"          Gender as string,",
+				"          EmailAddress as string,",
+				"          AnnualIncome as string,",
+				"          TotalChildren as string,",
+				"          EducationLevel as string,",
+				"          Occupation as string,",
+				"          HomeOwner as string,",
+				"          SalesTerritoryKey as string,",
+				"          Region as string,",
+				"          Country as string,",
+				"          Continent as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source(output(",
+				"          ProductSubcategoryKey as string,",
+				"          SubcategoryName as string,",
+				"          ProductCategoryKey as string,",
+				"          CategoryName as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source2",
+				"source1, source2 join(source1@ProductSubcategoryKey == source2@ProductSubcategoryKey,",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join1",
+				"join1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     partitionFileNames:['complete.csv'],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sink1"
+			]
+		}
+	}
+}

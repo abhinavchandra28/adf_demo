@@ -22,6 +22,143 @@
 			"firstRowAsHeader": true,
 			"quoteChar": "\""
 		},
-		"schema": []
+		"schema": [
+			{
+				"name": "OrderDate",
+				"type": "String"
+			},
+			{
+				"name": "StockDate",
+				"type": "String"
+			},
+			{
+				"name": "OrderNumber",
+				"type": "String"
+			},
+			{
+				"name": "ProductKey",
+				"type": "String"
+			},
+			{
+				"name": "CustomerKey",
+				"type": "String"
+			},
+			{
+				"name": "TerritoryKey",
+				"type": "String"
+			},
+			{
+				"name": "OrderLineItem",
+				"type": "String"
+			},
+			{
+				"name": "OrderQuantity",
+				"type": "String"
+			},
+			{
+				"name": "ProductSubcategoryKey",
+				"type": "String"
+			},
+			{
+				"name": "ProductSKU",
+				"type": "String"
+			},
+			{
+				"name": "ProductName",
+				"type": "String"
+			},
+			{
+				"name": "ModelName",
+				"type": "String"
+			},
+			{
+				"name": "ProductDescription",
+				"type": "String"
+			},
+			{
+				"name": "ProductColor",
+				"type": "String"
+			},
+			{
+				"name": "ProductSize",
+				"type": "String"
+			},
+			{
+				"name": "ProductStyle",
+				"type": "String"
+			},
+			{
+				"name": "ProductCost",
+				"type": "String"
+			},
+			{
+				"name": "ProductPrice",
+				"type": "String"
+			},
+			{
+				"name": "Prefix",
+				"type": "String"
+			},
+			{
+				"name": "FirstName",
+				"type": "String"
+			},
+			{
+				"name": "LastName",
+				"type": "String"
+			},
+			{
+				"name": "BirthDate",
+				"type": "String"
+			},
+			{
+				"name": "MaritalStatus",
+				"type": "String"
+			},
+			{
+				"name": "Gender",
+				"type": "String"
+			},
+			{
+				"name": "EmailAddress",
+				"type": "String"
+			},
+			{
+				"name": "AnnualIncome",
+				"type": "String"
+			},
+			{
+				"name": "TotalChildren",
+				"type": "String"
+			},
+			{
+				"name": "EducationLevel",
+				"type": "String"
+			},
+			{
+				"name": "Occupation",
+				"type": "String"
+			},
+			{
+				"name": "HomeOwner",
+				"type": "String"
+			},
+			{
+				"name": "SalesTerritoryKey",
+				"type": "String"
+			},
+			{
+				"name": "Region",
+				"type": "String"
+			},
+			{
+				"name": "Country",
+				"type": "String"
+			},
+			{
+				"name": "Continent",
+				"type": "String"
+			}
+		]
 	}
 }

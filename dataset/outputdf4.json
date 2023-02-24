@@ -1,5 +1,5 @@
 {
-	"name": "outputdf3",
+	"name": "outputdf4",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureBlobStorage1",
@@ -13,8 +13,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "dataflow3output.csv",
-				"folderPath": "adventure_works_output/sales_all_and_product_table",
+				"fileName": "complete.csv",
+				"folderPath": "adventure_works_output/final_output",
 				"container": "sales-data-blob"
 			},
 			"columnDelimiter": ",",
@@ -22,23 +22,6 @@
 			"firstRowAsHeader": true,
 			"quoteChar": "\""
 		},
-		"schema": [
-			{
-				"name": "ProductSubcategoryKey",
-				"type": "String"
-			},
-			{
-				"name": "SubcategoryName",
-				"type": "String"
-			},
-			{
-				"name": "ProductCategoryKey",
-				"type": "String"
-			},
-			{
-				"name": "CategoryName",
-				"type": "String"
-			}
-		]
+		"schema": []
 	}
 }
